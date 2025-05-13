@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy - Slotty Demo";
+}
+
+<!-- Page-specific styles -->
+<fill name="head">
+    <style>
+        .privacy-header {
+            background: #28a745;
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .privacy-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-left: 4px solid #28a745;
+            background: #f8f9fa;
+        }
+    </style>
+</fill>
+
+<!-- Different navbar content for privacy page -->
+<fill name="navbar:right">
+    <div class="d-flex align-items-center">
+        <span class="badge bg-success me-2">Secure</span>
+        <small class="text-muted">Privacy Protected</small>
+    </div>
+</fill>
+
+<!-- Custom header content -->
+<fill name="header:after">
+    <div class="privacy-header">
+        <div class="container text-center">
+            <h1 class="display-4">🔒 Privacy Policy</h1>
+            <p class="lead">Your privacy is important to us. This page demonstrates different slot usage than the home page.</p>
+        </div>
+    </div>
+</fill>
+
+<!-- Main content (no sidebar override, so uses default full-width layout) -->
+<div class="container">
+    <div class="privacy-section">
+        <h2>📋 Information We Collect</h2>
+        <p>This is a demo privacy policy page. Notice how this page has a different layout from the home page - no sidebar, different header styling, and different navbar content.</p>
+        <p>This demonstrates the flexibility of Slotty: each page can customize the layout by filling different slots or the same slots with different content.</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>🔐 How We Use Your Information</h2>
+        <p>We use information to provide and improve our services. In this demo, we're showing how slots can be used to create consistent yet flexible layouts.</p>
+        <ul>
+            <li>This page doesn't override the <code>sidebar</code> slot, so it uses the default full-width layout</li>
+            <li>It fills the <code>header:after</code> slot with different content</li>
+            <li>It uses different <code>navbar:right</code> content</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2>🌐 Sharing Information</h2>
+        <p>We respect your privacy and don't share personal information. This section shows how consistent styling can be achieved through slot-based layouts.</p>
+    </div>
+</div>
+
+<!-- Footer content specific to privacy page -->
+<fill name="footer:bottom">
+    <div class="text-center mt-3 pt-3 border-top">
+        <small class="text-muted">
+            Last updated: <strong>January 2025</strong> | 
+            Questions? Contact us at <a href="mailto:privacy@example.com">privacy@example.com</a>
+        </small>
+    </div>
+</fill>
+
+<!-- Page-specific script -->
+<fill name="scripts">
+    <script>
+        console.log('🔒 Privacy page loaded!');
+        
+        // Highlight privacy sections on hover
+        document.querySelectorAll('.privacy-section').forEach(section => {
+            section.addEventListener('mouseenter', function() {
+                this.style.borderLeftColor = '#155724';
+                this.style.backgroundColor = '#d4edda';
+            });
+            
+            section.addEventListener('mouseleave', function() {
+                this.style.borderLeftColor = '#28a745';
+                this.style.backgroundColor = '#f8f9fa';
+            });
+        });
+    </script>
+</fill>

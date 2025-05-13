@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Slotty.Example</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Slotty.Example.styles.css" asp-append-version="true" />
+    
+    <!-- Head slot for page-specific stylesheets -->
+    <slot name="head" />
+</head>
+<body>
+    <!-- Header slots for notifications, banners, etc. -->
+    <slot name="header:before">
+        <!-- Page-specific content that appears before the header -->
+    </slot>
+    
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Slotty.Example</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        
+                        <!-- Additional navigation items can be injected here -->
+                        <slot name="navigation">
+                            <!-- Default navigation items if none provided -->
+                        </slot>
+                    </ul>
+                    
+                    <!-- Right side navigation elements -->
+                    <slot name="navbar-right">
+                        <!-- Default empty, pages can add user menu, search, etc. -->
+                    </slot>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <slot name="header:after">
+        <!-- Page-specific content that appears after the header -->
+    </slot>
+    <div class="container">
+        <!-- Content before main area -->
+        <slot name="content:before">
+            <!-- Page-specific content that appears before main content -->
+        </slot>
+        
+        <div class="row">
+            <!-- Optional sidebar -->
+            <slot name="sidebar">
+                <!-- Default: no sidebar, main content takes full width -->
+                <div class="col-12">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                        
+                        <!-- Content slots within main area -->
+                        <slot name="content:after">
+                            <!-- Page-specific content after main body -->
+                        </slot>
+                    </main>
+                </div>
+            </slot>
+        </div>
+        
+        <!-- Content after main area -->
+        <slot name="content:bottom">
+            <!-- Page-specific content at bottom -->
+        </slot>
+    </div>
+
+    <!-- Footer before -->
+    <slot name="footer:before">
+        <!-- Page-specific content before footer -->
+    </slot>
+    
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    &copy; 2025 - Slotty.Example - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+                <div class="col-md-6">
+                    <!-- Footer extra content -->
+                    <slot name="footer-extra">
+                        <!-- Default empty, pages can add social links, additional info -->
+                    </slot>
+                </div>
+            </div>
+            
+            <!-- Footer bottom section -->
+            <slot name="footer:bottom">
+                <!-- Page-specific footer content -->
+            </slot>
+        </div>
+    </footer>
+    
+    <!-- Scripts before default scripts -->
+    <slot name="scripts:before">
+        <!-- Page-specific scripts that need to load before jQuery/Bootstrap -->
+    </slot>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- Page-specific scripts -->
+    <slot name="scripts">
+        <!-- Default empty, pages can add their scripts here -->
+    </slot>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

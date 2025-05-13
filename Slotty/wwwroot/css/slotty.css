@@ -1,0 +1,109 @@
+/* Slotty Base Styles */
+
+/* Reset and base styles */
+:root {
+  /* Slot colors */
+  --slot-border-color: rgb(110, 231, 183);
+  --slot-badge-bg: rgb(209, 250, 229);
+  --slot-badge-border-color: rgb(167, 243, 208);
+  --slot-badge-color: rgb(6, 95, 70);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --slot-border-color: rgb(6, 95, 70);
+    --slot-badge-bg: rgb(6, 78, 59);
+    --slot-badge-border-color: rgb(6, 95, 70);
+    --slot-badge-color: rgb(167, 243, 208);
+
+    /* Theme colors - dark mode */
+    --body-bg: #111827;
+    --body-color: #f9fafb;
+
+    --header-bg: #181f2e;
+    --header-color: #f9fafb;
+  }
+}
+
+/* Slot Development Mode */
+.slotty-slot-wrapper {
+  position: relative;
+  will-change: transform;
+  transform: scale(1.00012);
+}
+
+.slotty-slot-content {
+  transition: all 0.2s ease-in-out;
+}
+
+.slotty-slot-content-inner {
+}
+
+/* Hidden by default */
+.slotty-slot-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+.slotty-slot-name {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background-color: var(--slot-badge-bg);
+  color: var(--slot-badge-color);
+  border: 1px solid var(--slot-badge-border-color);
+  transition: transform 0.2s ease-in-out;
+  width: max-content;
+  position: absolute;
+}
+
+/* Show styles when active */
+.slots-visible .slotty-slot-wrapper {
+  margin: 1rem 0;
+}
+
+/* Has content styling - borders hidden by default */
+.slots-visible .slotty-slot-has-content .slotty-slot-content {
+  border: 2px dashed var(--slot-border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* Empty slot styling - borders hidden by default */
+.slots-visible .slotty-slot-empty .slotty-slot-content {
+  border-top: 2px dashed var(--slot-border-color);
+  min-height: 1rem;
+  padding: 1rem;
+}
+
+/* Show labels when active */
+.slots-visible .slotty-slot-label {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.slotty-slot-wrapper,
+.slotty-slot-content,
+.slotty-slot-content-inner {
+  display: contents;
+}
+
+.slots-visible .slotty-slot-wrapper,
+.slots-visible .slotty-slot-content,
+.slots-visible .slotty-slot-content-inner {
+  display: block;
+}
+/* End of file */
