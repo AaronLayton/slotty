@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Slotty Logo](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=SLOTTY)
+![Slotty Logo](Slotty/icon.png)
 
 **A modern, flexible content slot system for ASP.NET Core that replaces the limitations of `@RenderSection`**
 
