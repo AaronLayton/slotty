@@ -671,6 +671,26 @@ When ready to release a new version:
 - **Tagged releases** generate clean versions: `1.0.3`
 - **Tag format**: Always use `v` prefix (e.g., `v1.0.3`, `v1.1.0`, `v2.0.0`)
 
+#### How to Determine Next Version Number
+
+Before creating a release, check what version to use:
+
+```bash
+# 1. What's the current latest tag?
+git describe --tags --abbrev=0
+
+# 2. What commits have been made since the last tag?
+git log --oneline $(git describe --tags --abbrev=0)..HEAD
+
+# 3. What will MinVer suggest for the next version?
+dotnet build Slotty --configuration Release --verbosity detailed | Select-String -Pattern "MinVerVersion"
+```
+
+**Decision Guide:**
+- **Patch** (`v1.0.3`): Bug fixes, small improvements
+- **Minor** (`v1.1.0`): New features, backwards compatible
+- **Major** (`v2.0.0`): Breaking changes, API changes
+
 ### Verification
 
 After pushing a tag, verify the release:
