@@ -53,7 +53,8 @@ public class SlottyDevToolsMiddleware
             if (context.Response.ContentType?.Contains("text/html", StringComparison.OrdinalIgnoreCase) == true)
             {
                 responseBody.Seek(0, SeekOrigin.Begin);
-                var responseText = await new StreamReader(responseBody).ReadToEndAsync();
+                using var reader = new StreamReader(responseBody, leaveOpen: true);
+                var responseText = await reader.ReadToEndAsync();
                 
                 var modifiedHtml = InjectDevTools(responseText, assetService);
                 var modifiedBytes = Encoding.UTF8.GetBytes(modifiedHtml);
