@@ -612,6 +612,72 @@ dotnet test
 dotnet run --project Slotty.Example
 ```
 
+## 🔧 Development & Release Workflow
+
+### Development Process
+
+1. **Make changes** to the codebase
+2. **Run tests** to ensure everything works:
+   ```bash
+   dotnet test --configuration Release
+   ```
+3. **Build and test locally**:
+   ```bash
+   dotnet build --configuration Release
+   dotnet pack Slotty --configuration Release
+   ```
+4. **Commit and push** changes:
+   ```bash
+   git add .
+   git commit -m "feat: your feature description"
+   git push
+   ```
+
+### Release Process
+
+When ready to release a new version:
+
+1. **Update CHANGELOG.md** with new version details
+2. **Commit changelog updates**:
+   ```bash
+   git add CHANGELOG.md
+   git commit -m "docs: update changelog for v1.0.x"
+   git push
+   ```
+3. **Create and push version tag**:
+   ```bash
+   # For patch releases (bug fixes)
+   git tag -a v1.0.3 -m "Release v1.0.3 - Bug fixes"
+   git push origin v1.0.3
+   
+   # For minor releases (new features)
+   git tag -a v1.1.0 -m "Release v1.1.0 - New features"
+   git push origin v1.1.0
+   
+   # For major releases (breaking changes)
+   git tag -a v2.0.0 -m "Release v2.0.0 - Breaking changes"
+   git push origin v2.0.0
+   ```
+4. **GitHub Actions automatically**:
+   - Builds the project
+   - Runs all tests
+   - Validates the NuGet package
+   - Publishes to NuGet.org (if tag starts with `v`)
+
+### Version Management
+
+- **MinVer** automatically generates versions based on git tags
+- **Development commits** (after a tag) generate alpha versions: `1.0.3-alpha.0.1`
+- **Tagged releases** generate clean versions: `1.0.3`
+- **Tag format**: Always use `v` prefix (e.g., `v1.0.3`, `v1.1.0`, `v2.0.0`)
+
+### Verification
+
+After pushing a tag, verify the release:
+1. Check [GitHub Actions](https://github.com/AaronLayton/slotty/actions) for successful build
+2. Check [NuGet.org](https://www.nuget.org/packages/Slotty) for the new version
+3. Test installation: `dotnet add package Slotty`
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
