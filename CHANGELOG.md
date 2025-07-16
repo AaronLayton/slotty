@@ -17,11 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improved package description and tags
 - Updated project URLs and metadata
-- Updated test project to target .NET 8.0 for better CI compatibility
+- Updated test project to target .NET 9.0 for better CI compatibility
 - Set example project as non-packable to prevent packaging warnings
 
 ### Fixed
 - Fixed GitHub Actions CI workflow by adding missing checkout steps for global.json access
+- Fixed NuGet package validation by switching to embedded symbols instead of separate .snupkg files
 
 ## [1.0.0] - 2024-12-27
 
