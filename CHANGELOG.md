@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed GitHub Actions CI workflow by adding missing checkout steps for global.json access
 - Fixed NuGet package validation by switching to embedded symbols instead of separate .snupkg files
+- Fixed MinVer version detection by configuring tag prefix to use "v" (e.g., v1.0.1)
 
 ## [1.0.0] - 2024-12-27
 
