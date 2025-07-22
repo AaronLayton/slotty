@@ -18,7 +18,7 @@
 
 ## 🚀 Why Slotty?
 
-Tired of the rigid, error-prone `@RenderSection` system? **Slotty** brings modern content management to ASP.NET Core with a flexible, component-based approach that just works.
+Tired of the rigid, error-prone `@RenderSection` system? **Slotty** brings modern content management to ASP.NET Core with a flexible, component-based approach that enables **true component distribution**.
 
 ### The Problem with `@RenderSection`
 
@@ -30,29 +30,36 @@ Tired of the rigid, error-prone `@RenderSection` system? **Slotty** brings moder
 // Must define sections in exact layout hierarchy
 // No dynamic content injection
 // Poor error handling
+// Can't distribute layouts via NuGet packages
 // Limited extensibility
 ```
 
 ### The Slotty Solution
 
 ```html
-<!-- ✅ New way: Flexible, powerful, intuitive -->
+<!-- ✅ New way: Flexible, powerful, distributable -->
 <slot name="head"></slot>
+<slot name="nav-primary"></slot>
 <slot name="scripts"></slot>
 
 <!-- Multiple content blocks, extensions, fallbacks -->
 <slot name="sidebar">
     <div>Default sidebar content</div>
 </slot>
+
+<!-- Perfect for NuGet package distribution -->
+<!-- Themes, plugins, and components that consumers can extend -->
 ```
+
+**🎯 Game Changer**: Ship complete admin themes, component libraries, and plugins as NuGet packages that consuming applications can customize and extend!
 
 ## ✨ Features
 
 - 🎯 **Multiple Content Sources** - Add content to slots from anywhere in your application
 - 🔧 **Slot Extensions** - Automatic `:before` and `:after` extension points
 - 🛡️ **Type Safety** - Built-in validation with helpful error messages
-- 🎨 **Development Tools** - Visual slot debugging in development mode
-- 📦 **Zero Configuration** - Works out of the box with sensible defaults
+- 🎨 **Development Tools** - Visual slot debugging with `Alt+S` keyboard shortcut
+- 📦 **NuGet Distribution** - Ship themes and components as distributable packages
 - 🚀 **High Performance** - Request-scoped content management
 - 🔄 **Backward Compatible** - Migrate gradually from `@RenderSection`
 
@@ -82,7 +89,7 @@ dotnet add package Slotty
 
 ### PackageReference
 ```xml
-<PackageReference Include="Slotty" Version="1.0.0" />
+<PackageReference Include="Slotty" Version="1.1.0" />
 ```
 
 ## ⚡ Quick Start
@@ -259,69 +266,186 @@ Every slot automatically gets `:before` and `:after` extension points:
 
 ## 🔥 Advanced Examples
 
-### Dynamic E-commerce Layout
+### 📦 Distributable NuGet Themes & Plugins
+
+One of Slotty's most powerful features is enabling **component distribution via NuGet packages**. Ship complete layouts, themes, and plugins that consuming applications can extend and customize.
+
+#### Admin Theme NuGet Package
+
+Create a reusable admin theme package:
 
 ```html
-<!-- _Layout.cshtml -->
+<!-- AdminTheme.Web/Views/Shared/_AdminLayout.cshtml -->
 <!DOCTYPE html>
 <html>
 <head>
     <slot name="head">
-        <title>My Store</title>
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" href="~/css/admin-theme.css">
     </slot>
-    <slot name="meta"></slot>
 </head>
-<body>
-    <header>
-        <slot name="header:before"></slot>
-        <slot name="navigation"></slot>
-        <slot name="header:after"></slot>
+<body class="admin-layout">
+    <header class="admin-header">
+        <slot name="header">
+            <h1>Admin Portal</h1>
+        </slot>
+        <slot name="user-menu"></slot>
     </header>
     
-    <div class="container">
-        <aside>
-            <slot name="sidebar">
-                <div>Default sidebar</div>
-            </slot>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <slot name="navigation:before"></slot>
+
+                <!-- Core navigation -->
+                <a href="/admin" class="nav-item">
+                    <i class="icon-dashboard"></i> Dashboard
+                </a>
+                <a href="/admin/users" class="nav-item">
+                    <i class="icon-users"></i> Users
+                </a>
+                
+                <!-- Plugin injection points -->
+                <slot name="navigation-menu"></slot>
+                
+                <div class="nav-sticky-bottom">
+                    <!-- Plugin injection points -->
+                    <slot name="navigation-footer"></slot>
+
+                    <a href="/admin/logout" class="nav-item">
+                        <i class="icon-logout"></i> Logout
+                    </a>
+                </div>
+            </nav>
         </aside>
         
-        <main>
-            <slot name="content:before"></slot>
+        <main class="admin-main">
+            <slot name="breadcrumbs"></slot>
+            <slot name="page-header"></slot>
+            
             @RenderBody()
-            <slot name="content:after"></slot>
+            
+            <slot name="page-footer"></slot>
         </main>
     </div>
     
-    <footer>
-        <slot name="footer"></slot>
-    </footer>
-    
-    <slot name="scripts:before"></slot>
+    <slot name="modals"></slot>
     <slot name="scripts"></slot>
-    <slot name="scripts:after"></slot>
 </body>
 </html>
 ```
 
-### Product Page with Rich Content
+#### Client Application Usage
+
+Install and use the admin theme:
+
+```bash
+# Client application installs the theme
+dotnet add package MyCompany.AdminTheme
+```
+
+```html
+<!-- Views/Admin/Index.cshtml -->
+@{
+    Layout = "_AdminLayout"; // From NuGet package
+}
+
+<fill slot="head">
+    <title>Dashboard - My App Admin</title>
+    <link rel="stylesheet" href="~/css/custom-admin.css">
+</fill>
+
+<fill slot="user-menu">
+    <div class="user-dropdown">
+        <span>Welcome, @User.Identity.Name</span>
+        <a href="/logout">Logout</a>
+    </div>
+</fill>
+
+<fill slot="breadcrumbs">
+    <nav>Home > Dashboard</nav>
+</fill>
+
+<!-- Main dashboard content -->
+<div class="dashboard">
+    <h1>Dashboard</h1>
+    <!-- Dashboard widgets -->
+</div>
+```
+
+#### Plugin NuGet Packages
+
+Create plugins that extend the admin theme:
+
+```html
+<!-- InventoryPlugin/Views/Shared/_InventoryNavigation.cshtml -->
+@{
+    // This partial is included by the plugin
+}
+
+<fill slot="nav-primary">
+    <div class="nav-section">
+        <span class="nav-section-title">Inventory</span>
+        <a href="/admin/products" class="nav-item">
+            <i class="icon-box"></i> Products
+        </a>
+        <a href="/admin/categories" class="nav-item">
+            <i class="icon-tags"></i> Categories
+        </a>
+        <a href="/admin/inventory" class="nav-item">
+            <i class="icon-warehouse"></i> Stock Levels
+        </a>
+    </div>
+</fill>
+```
+
+```html
+<!-- ReportsPlugin/Views/Shared/_ReportsNavigation.cshtml -->
+<fill slot="nav-secondary">
+    <div class="nav-section">
+        <span class="nav-section-title">Reports</span>
+        <a href="/admin/reports/sales" class="nav-item">
+            <i class="icon-chart"></i> Sales Reports
+        </a>
+        <a href="/admin/reports/analytics" class="nav-item">
+            <i class="icon-analytics"></i> Analytics
+        </a>
+    </div>
+</fill>
+```
+
+#### Client Application Integration
+
+The client app includes navigation from all installed plugins:
+
+```html
+<!-- Views/Shared/_ViewImports.cshtml -->
+@using MyCompany.AdminTheme
+@addTagHelper *, MyCompany.AdminTheme
+
+<!-- Include plugin navigations -->
+@Html.Partial("~/Views/Shared/_InventoryNavigation.cshtml") 
+@Html.Partial("~/Views/Shared/_ReportsNavigation.cshtml")
+```
+
+#### Benefits of This Architecture
+
+✅ **Modular Development**: Teams can work on separate plugins independently  
+✅ **Consistent UI**: All plugins use the same admin theme  
+✅ **Easy Installation**: `dotnet add package InventoryPlugin`  
+✅ **Customizable**: Client apps can override any slot with their own content  
+✅ **Maintainable**: Theme updates automatically benefit all plugins  
+
+### E-commerce Product Pages
 
 ```html
 <!-- Views/Products/Details.cshtml -->
 <fill slot="head">
     <title>@Model.Name - My Store</title>
-</fill>
-
-<fill slot="meta">
     <meta name="description" content="@Model.Description">
-    <meta property="og:title" content="@Model.Name">
-    <meta property="og:image" content="@Model.ImageUrl">
 </fill>
 
-<fill slot="header:before">
-    <div class="sale-banner">🔥 Flash Sale: 50% Off!</div>
-</fill>
-
-<fill slot="navigation">
+<fill slot="breadcrumbs">
     <nav>
         <a href="/">Home</a> > 
         <a href="/products">Products</a> > 
@@ -329,67 +453,28 @@ Every slot automatically gets `:before` and `:after` extension points:
     </nav>
 </fill>
 
-<fill slot="sidebar">
-    <div class="filters">
-        <h3>Filter Products</h3>
-        <!-- Filter UI -->
-    </div>
-    
-    <div class="recent-products">
-        <h3>Recently Viewed</h3>
-        <!-- Recent products -->
-    </div>
-</fill>
-
 <!-- Main product content -->
 <div class="product-details">
     <h1>@Model.Name</h1>
     <div class="price">$@Model.Price</div>
-    <!-- Product details -->
 </div>
 
-<fill slot="content:after">
+<fill slot="page-footer">
     <section class="related-products">
         <h2>You Might Also Like</h2>
         <!-- Related products -->
-    </section>
-    
-    <section class="reviews">
-        <h2>Customer Reviews</h2>
-        <!-- Reviews -->
     </section>
 </fill>
 
 <fill slot="scripts">
     <script src="~/js/product-gallery.js"></script>
-    <script src="~/js/add-to-cart.js"></script>
 </fill>
 ```
 
-### Conditional Content with View Components
+### Component Libraries with Slots
 
 ```html
-<!-- Fill slots from View Components -->
-<fill slot="sidebar:before">
-    @await Component.InvokeAsync("ShoppingCart")
-</fill>
-
-<fill slot="footer">
-    @if (User.Identity.IsAuthenticated)
-    {
-        @await Component.InvokeAsync("UserAccount")
-    }
-    else
-    {
-        @await Component.InvokeAsync("LoginPrompt")
-    }
-</fill>
-```
-
-### Partial Views with Slots
-
-```html
-<!-- _ProductCard.cshtml -->
+<!-- _ProductCard.cshtml - Distributable component -->
 <div class="product-card">
     <slot name="product-image">
         <img src="@Model.DefaultImage" alt="@Model.Name">
@@ -407,13 +492,13 @@ Every slot automatically gets `:before` and `:after` extension points:
     <slot name="product-badges"></slot>
 </div>
 
-<!-- Usage -->
+<!-- Usage with customization -->
 @Html.Partial("_ProductCard", product)
 
 <fill slot="product-badges">
     @if (product.IsOnSale)
     {
-        <span class="badge sale">SALE</span>
+        <span class="badge sale">50% OFF</span>
     }
 </fill>
 
@@ -421,30 +506,65 @@ Every slot automatically gets `:before` and `:after` extension points:
     <button class="btn btn-primary" data-product="@product.Id">
         Quick Add - $@product.Price
     </button>
-    <button class="btn btn-secondary">
-        <i class="heart"></i> Wishlist
-    </button>
+    <a href="#" class="wishlist-btn">♡ Save</a>
 </fill>
 ```
 
 ## 🛠️ Development Tools
 
-### Automatic Dev Tools
+### Visual Slot Debugging
 
-In development mode, Slotty automatically injects visual debugging tools:
+Slotty includes powerful development tools that make slot debugging intuitive and visual:
+
+![Slotty Development Tools](images/devtools.png)
+*Placeholder image - Visual overlay showing slot boundaries and names*
+
+### Interactive Overlay System
+
+**Keyboard Shortcut: `Alt + S`**
+
+- **Single press**: Show slot overlays while keys are held
+- **Double press**: Toggle permanent visibility (persists until page reload)
+- **Visual indicators**: Each slot shows its name, content status, and boundaries
 
 ```html
 <!-- Automatically injected in development -->
-<style>
-    .slotty-slot-wrapper { border: 2px dashed #007bff; margin: 2px; }
-    .slotty-slot-label { background: #007bff; color: white; font-size: 12px; }
-</style>
-
 <script>
-    // Interactive slot debugging
-    console.log('Slotty dev tools loaded');
+// Alt+S keyboard shortcut for slot visualization
+// Double-press for permanent visibility
+// Session storage persistence
 </script>
 ```
+
+### Customizable Overlay Styling
+
+Override the default blue theme with CSS variables:
+
+```css
+/* Change the entire overlay theme with one variable */
+:root {
+  --slotty-overlay-color: red;                    /* Base color */
+  --slotty-overlay-transition-duration: 300ms;    /* Animation speed */
+  --slotty-overlay-border-radius: 8px;           /* Corner rounding */
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --slotty-overlay-color: crimson;
+  }
+}
+```
+
+**Available CSS Variables:**
+- `--slotty-overlay-color` - Base color (auto-generates other colors)
+- `--slotty-overlay-border` - Border style (e.g., `2px solid red`)
+- `--slotty-overlay-background-color` - Fill opacity
+- `--slotty-overlay-pill-background` - Name pill background
+- `--slotty-overlay-pill-color` - Name pill text color
+- `--slotty-overlay-transition-duration` - Animation timing
+- `--slotty-overlay-border-radius` - Corner rounding
+- `--slotty-overlay-sheen-color` - Highlight animation color
 
 ### Head-Safe Debugging
 
@@ -457,18 +577,6 @@ Slots in `<head>` use HTML comments for valid markup:
     <meta charset="utf-8">
     <!-- /SLOTTY: head -->
 </head>
-```
-
-### Configuration
-
-```csharp
-// Control dev tools injection
-builder.Services.AddSlotty(options =>
-{
-    options.DevToolsInjection = SlottyDevToolsInjectionMode.Always; // Always show
-    // or SlottyDevToolsInjectionMode.Never;  // Never show
-    // or SlottyDevToolsInjectionMode.Auto;   // Development only (default)
-});
 ```
 
 ## 🔄 Migration Guide

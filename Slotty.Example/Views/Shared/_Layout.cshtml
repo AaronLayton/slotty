@@ -6,18 +6,15 @@
     <title>@ViewData["Title"] - Slotty.Example</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Slotty.Example.styles.css" asp-append-version="true" />
     
     <!-- Head slot for page-specific stylesheets -->
     <slot name="head" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Header slots for notifications, banners, etc. -->
-    <slot name="header:before">
-        <!-- Page-specific content that appears before the header -->
-    </slot>
-    
+   
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -53,12 +50,8 @@
     <slot name="header:after">
         <!-- Page-specific content that appears after the header -->
     </slot>
+    
     <div class="container">
-        <!-- Content before main area -->
-        <slot name="content:before">
-            <!-- Page-specific content that appears before main content -->
-        </slot>
-        
         <div class="row">
             <!-- Optional sidebar -->
             <slot name="sidebar">
@@ -66,20 +59,12 @@
                 <div class="col-12">
                     <main role="main" class="pb-3">
                         @RenderBody()
-                        
-                        <!-- Content slots within main area -->
-                        <slot name="content:after">
-                            <!-- Page-specific content after main body -->
-                        </slot>
                     </main>
                 </div>
             </slot>
         </div>
         
-        <!-- Content after main area -->
-        <slot name="content:bottom">
-            <!-- Page-specific content at bottom -->
-        </slot>
+
     </div>
 
     <!-- Footer before -->

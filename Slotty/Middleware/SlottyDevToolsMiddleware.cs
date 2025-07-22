@@ -91,12 +91,13 @@ public class SlottyDevToolsMiddleware
             var cssContent = assetService.GetCssContent();
             var jsContent = assetService.GetJavaScriptContent();
 
-            // Inject CSS before </head>
-            var headEndIndex = html.LastIndexOf("</head>", StringComparison.OrdinalIgnoreCase);
-            if (headEndIndex >= 0)
+            // Inject CSS early in <head> so user CSS can override our defaults
+            var headStartIndex = html.IndexOf("<head>", StringComparison.OrdinalIgnoreCase);
+            if (headStartIndex >= 0)
             {
-                var cssTag = $"    <!-- Slotty Development Tools CSS -->\n    <style>{cssContent}</style>\n";
-                html = html.Insert(headEndIndex, cssTag);
+                var headTagEnd = html.IndexOf(">", headStartIndex) + 1;
+                var cssTag = $"\n    <!-- Slotty Development Tools CSS (defaults) -->\n    <style>{cssContent}</style>\n";
+                html = html.Insert(headTagEnd, cssTag);
             }
 
             // Inject JS before </body>

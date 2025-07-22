@@ -1,12 +1,4 @@
 @model (string Name, string Content, bool HasContent)
-<div class="slotty-slot-wrapper @(Model.HasContent ? "slotty-slot-has-content" : "slotty-slot-empty")">
-    <div class="slotty-slot-content">
-        @if (Model.HasContent)
-        {
-            <div class="slotty-slot-content-inner">@Html.Raw(Model.Content)</div>
-        }
-        <div class="slotty-slot-label">
-            <span class="slotty-slot-name">@Model.Name</span>
-        </div>
-    </div>
+<div data-slotty-slot="@Model.Name" data-slot-name="@Model.Name" class="slotty-slot-wrapper">
+    @Html.Raw(Model.Content)
 </div> 

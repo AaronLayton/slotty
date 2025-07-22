@@ -119,11 +119,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Content after main body -->
-            <slot name="content:after">
-                <!-- This will be filled by the content:after fill below -->
-            </slot>
         </main>
     </div>
     
@@ -138,7 +133,6 @@
                 <li>✅ <code>navbar-right</code> - User menu</li>
                 <li>✅ <code>header:after</code> - Hero section</li>
                 <li>✅ <code>sidebar</code> - This sidebar!</li>
-                <li>✅ <code>content:after</code> - See below</li>
                 <li>✅ <code>footer-extra</code> - Footer links</li>
                 <li>✅ <code>scripts</code> - Page scripts</li>
             </ul>
@@ -151,13 +145,6 @@
     </div>
 </fill>
 
-<!-- Add content after the main body -->
-<fill name="content:after">
-    <div class="alert alert-success mt-4" role="alert">
-        <h4 class="alert-heading">🎉 Content After Main!</h4>
-        <p>This content was injected using <code>&lt;fill name="content:after"&gt;</code> and appears after the main page content but within the main container.</p>
-    </div>
-</fill>
 
 <!-- Add footer extra content -->
 <fill name="footer-extra">
