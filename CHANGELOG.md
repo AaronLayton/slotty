@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved Alt+S keyboard shortcut with individual key state tracking
   - Double-press functionality for permanent overlay visibility
   - Session storage persistence for permanent mode
+- Fixed an issue where the Slot Name was not being validated correctly
 - Enhanced NuGet package metadata
 - Automatic versioning using MinVer
 - Source Link support for debugging

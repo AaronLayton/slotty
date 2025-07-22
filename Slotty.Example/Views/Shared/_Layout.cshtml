@@ -50,6 +50,9 @@
     <slot name="header:after">
         <!-- Page-specific content that appears after the header -->
     </slot>
+
+    <slot name="aaron:before">aaron DEFAULT</slot>
+    
     
     <div class="container">
         <div class="row">
@@ -63,15 +66,8 @@
                 </div>
             </slot>
         </div>
-        
-
     </div>
 
-    <!-- Footer before -->
-    <slot name="footer:before">
-        <!-- Page-specific content before footer -->
-    </slot>
-    
     <footer class="border-top footer text-muted">
         <div class="container">
             <div class="row">
@@ -85,11 +81,6 @@
                     </slot>
                 </div>
             </div>
-            
-            <!-- Footer bottom section -->
-            <slot name="footer:bottom">
-                <!-- Page-specific footer content -->
-            </slot>
         </div>
     </footer>
     

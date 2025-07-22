@@ -39,6 +39,7 @@ public interface ISlotContentStore
     /// <param name="slotName">The name of the slot that was defined.</param>
     /// <exception cref="ArgumentException">Thrown when slotName is null or whitespace.</exception>
     /// <exception cref="InvalidOperationException">Thrown when HttpContext is not available.</exception>
+    /// <exception cref="Slotty.Exceptions.InvalidSlotNameException">Thrown when slot name is invalid.</exception>
     void RegisterSlotDefined(string slotName);
 
     /// <summary>

@@ -114,10 +114,14 @@ public class SlotContentStore : ISlotContentStore
     /// <param name="slotName">The name of the slot that was defined.</param>
     /// <exception cref="ArgumentException">Thrown when slotName is null or whitespace.</exception>
     /// <exception cref="InvalidOperationException">Thrown when HttpContext is not available.</exception>
+    /// <exception cref="InvalidSlotNameException">Thrown when slot name is invalid.</exception>
     public void RegisterSlotDefined(string slotName)
     {
         if (string.IsNullOrWhiteSpace(slotName))
             throw new ArgumentException("Slot name cannot be null or whitespace.", nameof(slotName));
+
+        // Always validate slot name
+        ValidateSlotName(slotName);
 
         if (IsTrackingEnabled())
         {
